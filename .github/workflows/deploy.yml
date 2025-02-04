@@ -6,6 +6,8 @@ on:
       - master
 jobs:
   build:
+  - name: Run tests
+    run: npm test
     runs-on: ubuntu-latest
     steps:
       # 1) Checkout - stáhne kód do CI prostředí
