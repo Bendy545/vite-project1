@@ -23,7 +23,7 @@ jobs:
       # 4) Spuštění testů
       - name: Run tests
         run: npm test
-
+        
       # 5) Build projektu
       - name: Build
         run: npm run build
