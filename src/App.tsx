@@ -2,10 +2,15 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import PasswordInput from "./PasswordInput.tsx";
+import PasswordStrength from "./PasswordStrength.tsx";
+
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+    const [count, setCount] = useState(0)
+    const [password, setPassword] = useState('');
   return (
     <>
       <div>
@@ -28,6 +33,11 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+        <div style={{ padding: '20px' }}>
+            <PasswordInput setPassword={setPassword} />
+            <PasswordStrength password={password} />
+        </div>
     </>
   )
 }
