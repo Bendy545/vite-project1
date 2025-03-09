@@ -5,6 +5,7 @@ import PasswordStrength from "./PasswordStrength.tsx";
 import CharacterSequenceValidator from "./CharacterSequenceValidator.tsx";
 import PasswordTimeValidator from "./PasswordTimeValidator.tsx";
 import CurrentTemperature from "./CurrentTemperature.tsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
