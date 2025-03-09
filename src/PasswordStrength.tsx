@@ -8,7 +8,7 @@ const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordS
 
     const errorArray: Array<string> = [];
 
-    if (password === null) {return(<p>Napis neco</p>);}
+    if (password === null) {return(<p className="text-danger">Napis neco</p>);}
 
     if (password.length < 8) {
         errorArray.push('Heslo je prilis kratke')
@@ -19,13 +19,15 @@ const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordS
     if (password.search(/[😀-🙏]/u) === -1) {errorArray.push('Heslo neobsahuje emoji')}
 
     return (
-        <>
-            {
-                errorArray.map((value, index)  => {
-                    return <p key={index}>{value}</p>
-                })
-            }
-        </>
+        <div className="alert alert-warning mt-2">
+            {errorArray.length === 0 ? (
+                <p className="text-success">Heslo je dostatečně silné</p>
+            ) : (
+                errorArray.map((value, index) => (
+                    <p key={index} className="text-danger">{value}</p>
+                ))
+            )}
+        </div>
 
     )
 }

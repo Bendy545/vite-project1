@@ -12,7 +12,9 @@ const PasswordInput2: React.FC<PasswordInputProps> = ({passwordValue,setter}: Pa
     }
 
     return (
-        <input type={'text'} onChange={changeHandler} value={passwordValue ?? ""}/>
+        <div className="mb-3">
+        <input type={'text'} className="form-control" onChange={changeHandler} value={passwordValue ?? ""}/>
+        </div>
     )
 }
 
