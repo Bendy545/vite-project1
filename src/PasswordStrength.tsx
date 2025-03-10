@@ -5,37 +5,39 @@ interface PasswordStrengthProps {
     password: string | null
 }
 
-const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordStrengthProps) =>{
+const evaluatePassword = (password: string | null): { strength: string; errors: string[] } => {
+    const errorArray: string[] = [];
 
+    if (!password) {
+        return { strength: "Slabé", errors: ["Napiš něco"] };
+    }
+
+    if (password.length < 8) errorArray.push("Heslo je příliš krátké");
+    if (!/[A-Z]/.test(password)) errorArray.push("Heslo neobsahuje velké písmeno");
+    if (!/[0-9]/.test(password)) errorArray.push("Heslo neobsahuje číslo");
+    if (!/[!@#$%^&*]/.test(password)) errorArray.push("Heslo neobsahuje speciální znak");
+    if (!/[😀-🙏]/u.test(password)) errorArray.push("Heslo neobsahuje emoji");
+
+    let strength = "Silné";
+    if (errorArray.length > 3) strength = "Slabé";
+    else if (errorArray.length > 0) strength = "Střední";
+
+    return { strength, errors: errorArray };
+};
+
+const PasswordStrength: React.FC<PasswordStrengthProps> = ({ password }) => {
     const [errors, setErrors] = useState<string[]>([]);
-    const [strength, setStrength] = useState<string>("");
+    const [passwordStrength, setPasswordStrength] = useState<string>("");
 
     useEffect(() => {
-        const errorArray: string[] = [];
-
-        if (!password) {
-            setErrors(["Napiš něco"]);
-            setStrength("Slabé");
-            return;
-        }
-
-        if (password.length < 8) errorArray.push("Heslo je příliš krátké");
-        if (!/[A-Z]/.test(password)) errorArray.push("Heslo neobsahuje velké písmeno");
-        if (!/[0-9]/.test(password)) errorArray.push("Heslo neobsahuje číslo");
-        if (!/[!@#$%^&*]/.test(password)) errorArray.push("Heslo neobsahuje speciální znak");
-        if (!/[😀-🙏]/u.test(password)) errorArray.push("Heslo neobsahuje emoji");
-
-        let newStrength = "Silné";
-        if (errorArray.length > 3) newStrength = "Slabé";
-        else if (errorArray.length > 0) newStrength = "Střední";
-
-        setErrors(errorArray);
-        setStrength(newStrength);
+        const { strength, errors } = evaluatePassword(password);
+        setErrors(errors);
+        setPasswordStrength(strength);
     }, [password]);
 
     useEffect(() => {
-        document.title = `Síla hesla: ${strength}`;
-    }, [strength]);
+        document.title = `Síla hesla: ${passwordStrength}`;
+    }, [passwordStrength]);
 
     return (
         <div className="alert alert-warning mt-2">
@@ -48,7 +50,7 @@ const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordS
                     </p>
                 ))
             )}
-            <p>sila hesla: {strength}</p>
+            <p>Síla hesla: {passwordStrength}</p>
         </div>
     );
 };
