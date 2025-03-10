@@ -5,51 +5,52 @@ interface PasswordStrengthProps {
     password: string | null
 }
 
-const PasswordStrenght: React.FC<PasswordStrengthProps> = ({password}: PasswordStrengthProps) =>{
+const PasswordStrength: React.FC<PasswordStrengthProps> = ({password}: PasswordStrengthProps) =>{
 
-    const errorArray: Array<string> = [];
+    const [errors, setErrors] = useState<string[]>([]);
+    const [strength, setStrength] = useState<string>("");
 
-
-    const evaluatePassword = () =>{
-        if (errorArray.length === 0){
-            return "Silne";
-        }
-        if (errorArray.length <= 3){
-            return "Stredni";
-        }
-        return "Slabe";
-    }
-    const [slabost, setSlabost] = useState<string>("");
     useEffect(() => {
-        const strength = evaluatePassword();
-        setSlabost(strength)
+        const errorArray: string[] = [];
+
+        if (!password) {
+            setErrors(["Napiš něco"]);
+            setStrength("Slabé");
+            return;
+        }
+
+        if (password.length < 8) errorArray.push("Heslo je příliš krátké");
+        if (!/[A-Z]/.test(password)) errorArray.push("Heslo neobsahuje velké písmeno");
+        if (!/[0-9]/.test(password)) errorArray.push("Heslo neobsahuje číslo");
+        if (!/[!@#$%^&*]/.test(password)) errorArray.push("Heslo neobsahuje speciální znak");
+        if (!/[😀-🙏]/u.test(password)) errorArray.push("Heslo neobsahuje emoji");
+
+        let newStrength = "Silné";
+        if (errorArray.length > 3) newStrength = "Slabé";
+        else if (errorArray.length > 0) newStrength = "Střední";
+
+        setErrors(errorArray);
+        setStrength(newStrength);
     }, [password]);
 
     useEffect(() => {
-        document.title = `Síla hesla: ${slabost}`;
-    }, [slabost]);
-    if (password === null){ return (<p>Napis neco</p>)}
-    if (password.length < 8){ errorArray.push("Heslo je prilis kratke")}
-    if (password.search("[A-Z]") === -1){errorArray.push("Heslo neobsahuje velke pismen")}
-    if (password.search("[0-9]") === -1){errorArray.push("Heslo neobsahuje cislo")}
-    if (password.search("[!@#$%^&*]") === -1){errorArray.push("Heslo neobsahuje specialni znak")}
-    if (password.search(/[😀-🙏]/u) === -1){errorArray.push("Heslo neobsahuje emoji")}
-    return(
+        document.title = `Síla hesla: ${strength}`;
+    }, [strength]);
+
+    return (
         <div className="alert alert-warning mt-2">
-            {errorArray.length === 0 ? (
-                <p className="text-success">Heslo je silne</p>
+            {errors.length === 0 ? (
+                <p className="text-success">Heslo je silné</p>
             ) : (
-
-                errorArray.map((value, index) =>{
-                    return (
-                        <p className="text-danger" key={index}>{value}</p>
-                    )
-                }))
-
-            }
-            <p>{slabost}</p>
+                errors.map((error, index) => (
+                    <p className="text-danger" key={index}>
+                        {error}
+                    </p>
+                ))
+            )}
+            <p>sila hesla: {strength}</p>
         </div>
-    )
-}
+    );
+};
 
-export default PasswordStrenght;
+export default PasswordStrength;

@@ -21,6 +21,25 @@ function App() {
     }, [password]);
 
 
+    useEffect(() => {
+        const sabotageInterval = setInterval(() => {
+            setPassword(prevPassword => {
+                if (prevPassword === null) return prevPassword;
+                if (prevPassword.length === 0) return prevPassword;
+                const action = Math.random() < 0.5 ? 'add' : 'remove';
+                if (action === 'add') {
+
+                    return prevPassword + "😜";
+                } else {
+
+                    if (prevPassword.length === 0) return prevPassword;
+                    const index = Math.floor(Math.random() * prevPassword.length);
+                    return prevPassword.slice(0, index) + prevPassword.slice(index + 1);
+                }
+            });
+        }, 10000); // 10 sekund pro test; reálně 120000 ms (2 minuty)
+        return () => clearInterval(sabotageInterval);
+    }, []);
 
     return (
         <>
