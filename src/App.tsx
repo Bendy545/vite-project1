@@ -8,8 +8,6 @@ import CurrentTemperature from "./CurrentTemperature.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-
-
 function App() {
     const [password, setPassword] = useState<string | null>(null);
     const [passwordTime, setPasswordTime] = useState<number>(Date.now());
@@ -35,5 +33,6 @@ function App() {
         </>
     )
 }
+
 
 export default App
