@@ -6,6 +6,7 @@ import CharacterSequenceValidator from "./CharacterSequenceValidator.tsx";
 import PasswordTimeValidator from "./PasswordTimeValidator.tsx";
 import CurrentTemperature from "./CurrentTemperature.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CountryFlagValidator from "./CountryFlagValidator.tsx";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <CharacterSequenceValidator password={password}/>
             <PasswordTimeValidator password={password} time={passwordTime}/>
             <CurrentTemperature/>
+            <CountryFlagValidator password={password}/>
         </>
     )
 }
