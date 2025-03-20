@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface PasswordInputProps {
-    passwordValue: string | null,
-    setter: React.Dispatch<React.SetStateAction<string | null>>
+    passwordValue: string | null;
+    setter: (value: string | null) => void;
 }
 
 
@@ -12,9 +12,12 @@ const PasswordInput2: React.FC<PasswordInputProps> = ({passwordValue,setter}: Pa
     }
 
     return (
-        <div className="mb-3">
-        <input type={'text'} className="form-control" onChange={changeHandler} value={passwordValue ?? ""}/>
+
+
+        <div className="mb-5">
+        <input type={'text'}  className="form-control form-control-lg custom-input " onChange={changeHandler} value={passwordValue ?? ""}/>
         </div>
+
     )
 }
 

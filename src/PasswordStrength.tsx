@@ -5,7 +5,7 @@ interface PasswordStrengthProps {
     password: string | null
 }
 
-const evaluatePassword = (password: string | null): { strength: string; errors: string[] } => {
+export const evaluatePassword = (password: string | null): { strength: string; errors: string[] } => {
     const errorArray: string[] = [];
 
     if (!password) {
@@ -50,7 +50,7 @@ const PasswordStrength: React.FC<PasswordStrengthProps> = ({ password }) => {
                     </p>
                 ))
             )}
-            <p>Síla hesla: {passwordStrength}</p>
+            <p className="text-dark">Síla hesla: {passwordStrength}</p>
         </div>
     );
 };

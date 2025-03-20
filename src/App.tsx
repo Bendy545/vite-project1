@@ -11,15 +11,19 @@ import CountryFlagValidator from "./CountryFlagValidator.tsx";
 
 function App() {
     const [password, setPassword] = useState<string | null>(null);
-    const [passwordTime, setPasswordTime] = useState<number>(Date.now());
+    const [passwordTime, setPasswordTime] = useState<number | null>(null);
 
 
 
-    useEffect(() => {
-        if (password !== null) {
-            setPasswordTime(Date.now());
-        }
-    }, [password]);
+    const handlePasswordChange = (newPassword: string | null) => {
+        setPassword((prevPassword) => {
+            if (!prevPassword && newPassword) {
+                setPasswordTime(Date.now());
+                console.log("Čas nastaven na:", Date.now());
+            }
+            return newPassword;
+        });
+    };
 
 
     useEffect(() => {
@@ -38,19 +42,21 @@ function App() {
                     return prevPassword.slice(0, index) + prevPassword.slice(index + 1);
                 }
             });
-        }, 10000); // 10 sekund pro test; reálně 120000 ms (2 minuty)
+        }, 10000);
         return () => clearInterval(sabotageInterval);
     }, []);
 
     return (
         <>
-            <h1>Password validator</h1>
-            <PasswordInput2 passwordValue={password} setter={setPassword} />
+            <h1 className="mb-5 text-light" >Password validator</h1>
+            <PasswordInput2 passwordValue={password} setter={handlePasswordChange} />
             <PasswordStrength password={password}/>
             <CharacterSequenceValidator password={password}/>
-            <PasswordTimeValidator password={password} time={passwordTime}/>
-            <CurrentTemperature/>
+            {passwordTime !== null && <PasswordTimeValidator password={password} time={passwordTime} />}
             <CountryFlagValidator password={password}/>
+            <div className="fixed-bottom">
+                <CurrentTemperature/>
+            </div>
         </>
     )
 }

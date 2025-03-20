@@ -21,9 +21,9 @@ const CurrentTemperature: React.FC = () => {
     }, []);
 
     return (
-        <div>
-            <p>Aktuální teplota v Praze: {temperature}</p>
-        </div>
+        <>
+            <p className="text-light">Aktuální teplota v Praze: {temperature}</p>
+        </>
     );
 };
 
